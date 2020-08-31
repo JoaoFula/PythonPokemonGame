@@ -3,6 +3,7 @@ from game_state_file import game_state_class
 import pygame
 import config
 import math
+from tileset_reader import sprite_sheet_reader
 
 
 class game:
@@ -13,6 +14,11 @@ class game:
         self.map = []
         self.camera = [0, 0]
         self.position_change = [0, 0]
+        self.reader = sprite_sheet_reader('imgs/pokemon_tileset.png', 32)
+
+        map_tile_image["C"] = self.reader.get_tile(0,0)
+
+
 
     def set_up(self):
         player = player_class(1,1)
@@ -130,6 +136,8 @@ class game:
             self.camera[0] = 0
         else:
             self.camera[0] = max_x_position
+
+
 
 
 ## To add more tiles, add image to imgs folder and place here with a code for it
