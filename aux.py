@@ -12,7 +12,6 @@ class game:
         self.game_state = game_state_class.NONE
         self.map = []
         self.camera = [0, 0]
-        self.position_change = [0, 0]
 
     def set_up(self):
         player = player_class(1,1)
@@ -26,46 +25,31 @@ class game:
     def update(self):
         # temporary screen clearence
         self.screen.fill(config.BLACK)
-        #print("update")
-
+        print("update")
+        self.handle_events()
         self.render_map(self.screen)
         for object in self.objects:
             object.render(self.screen, self.camera)
-        self.move_unit( self.player, self.position_change)
+
 
     def handle_events(self):
-
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
                 self.game_state = game_state_class.ENDED
             # handle key events
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT or event.key == ord('a'):
-                    self.position_change[0] += -0.1
-                if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                    self.position_change[0] += 0.1
-                if event.key == pygame.K_UP or event.key == ord('w'):
-                    self.position_change[1] += -0.1
-                if event.key == pygame.K_DOWN or event.key == ord('s'):
-                    self.position_change[1] += 0.1
-
-
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT or event.key == ord('a'):
-                    self.position_change[0] += 0.1
-                if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                    self.position_change[0] += -0.1
-                if event.key == pygame.K_UP or event.key == ord('w'):
-                    self.position_change[1] += 0.1
-                if event.key == pygame.K_DOWN or event.key == ord('s'):
-                    self.position_change[1] += -0.1
-
-
-
-
-
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.game_state = game_state_class.ENDED
+                elif event.key == pygame.K_w: # up
+                    self.move_unit(self.player, [0, -0.1])
+                elif event.key == pygame.K_s: # down
+                    self.move_unit(self.player, [0, 0.1])
+                elif event.key == pygame.K_a: # left
+                    self.move_unit(self.player, [-0.1, 0])
+                elif event.key == pygame.K_d: # right
+                    self.move_unit(self.player, [0.1, 0])
 
 
     def load_map(self, file_name):
@@ -94,23 +78,14 @@ class game:
             y_pos += 1
 
     def move_unit(self, unit, position_change):
-        if position_change is None:
-            return
-
         new_position = [unit.position[0] + position_change[0], unit.position[1] + position_change[1]]
 
-        # Test for collision with map boundaries
         if new_position[0] < 0 or new_position[0] > (len(self.map[0])-1):
             return
         if new_position[1] < 0 or new_position[1] > (len(self.map)-1):
             return
-
-        # Test for collision with water tiles
-        if self.map[round(new_position[1])][round(new_position[0]+0.25)] == 'W' or \
-                self.map[round(new_position[1]+0.5)][round(new_position[0] + 0.25)] == 'W' or \
-                self.map[round(new_position[1])][round(new_position[0] - 0.25)] == 'W' or \
-                self.map[round(new_position[1]+0.5)][round(new_position[0] - 0.25)] == 'W':
-            return
+        #if self.map[new_position[1]][new_position[0]] == 'W':
+            #return
 
         unit.update_position(new_position)
 
