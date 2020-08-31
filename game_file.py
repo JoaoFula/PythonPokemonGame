@@ -24,7 +24,7 @@ class game:
 
 
     def update(self):
-        # temporary screen clearence
+        # temporary screen clearance
         self.screen.fill(config.BLACK)
         #print("update")
 
@@ -42,6 +42,8 @@ class game:
             # handle key events
 
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.game_state = game_state_class.ENDED
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
                     self.position_change[0] += -0.1
                 if event.key == pygame.K_RIGHT or event.key == ord('d'):
@@ -61,12 +63,6 @@ class game:
                     self.position_change[1] += 0.1
                 if event.key == pygame.K_DOWN or event.key == ord('s'):
                     self.position_change[1] += -0.1
-
-
-
-
-
-
 
     def load_map(self, file_name):
         with open('maps/'+file_name+'.txt') as map_file:
