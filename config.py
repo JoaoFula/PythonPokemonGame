@@ -4,4 +4,7 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
 # scales
-SCALE = 10
+SCALE = 32
+
+SCREEN_HEIGHT = 480
+SCREEN_WIDTH = 640
