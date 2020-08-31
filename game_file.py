@@ -15,9 +15,10 @@ class game:
         self.camera = [0, 0]
         self.position_change = [0, 0]
         self.reader = sprite_sheet_reader('imgs/pokemon_tileset.png', 32)
-
-        map_tile_image["C"] = self.reader.get_tile(0,0)
-
+        # to find the coordinates, use geeqie to find the top left corner of the tile you want
+        map_tile_image["G"] = self.reader.get_tile(round(96 / 32),round(2240 / 32))
+        map_tile_image["W"] = self.reader.get_tile(round(134 / 32), round(3686 / 32))
+        map_tile_image["GWTL"] = self.reader.get_tile(round(118 / 32), round(4208 / 32))
 
 
     def set_up(self):
@@ -142,6 +143,5 @@ class game:
 
 ## To add more tiles, add image to imgs folder and place here with a code for it
 map_tile_image = {
-    "G": pygame.image.load("imgs/grass1.png"),
-    "W": pygame.image.load("imgs/water.png")
+
 }
